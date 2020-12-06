@@ -1,5 +1,5 @@
 <template>
-  <form @submit="onSubmit" novalidate>
+  <form @submit.prevent="submit" novalidate>
     <slot />
     <p>Data: {{ formData }}</p>
     <p>Loading: {{ loading }}</p>
@@ -9,7 +9,8 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import isValidHttpMethod from '@/utils/isValidHttpMethod';
+import { SEND_FORM_DATA } from '@/store/constants';
+import validator from '@/utils/isValidHttpMethod';
 
 export default {
   name: 'real-digital-form',
@@ -18,17 +19,21 @@ export default {
     method: {
       type: String,
       default: 'POST',
-      validator: isValidHttpMethod,
+      validator,
     },
   },
-  computed: {
-    ...mapState(['formData', 'loading', 'formIsValid']),
-  },
+  computed: mapState(['formData', 'loading', 'formIsValid']),
   methods: {
-    ...mapActions(['fetchFormData']),
-    onSubmit(e) {
-      e.preventDefault();
-      this.fetchFormData({ action: this.action, method: this.method });
+    ...mapActions([SEND_FORM_DATA]),
+    async submit() {
+      this.$emit('onSubmit', this.formData);
+
+      const [response, error] = await this.SEND_FORM_DATA({
+        url: this.action,
+        method: this.method,
+      });
+
+      this.$emit('onResponse', response, error);
     },
   },
 };

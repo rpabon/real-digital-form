@@ -8,6 +8,7 @@ import {
   SET_LOADING,
   SET_REQUEST_ERROR,
   SET_REQUEST_RESPONSE,
+  SEND_FORM_DATA,
 } from './constants';
 
 Vue.use(Vuex);
@@ -38,25 +39,32 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async fetchFormData({ commit, state }, { action, method }) {
-      if (!state.formIsValid) return;
+    async [SEND_FORM_DATA]({ commit, state }, { url, method }) {
+      let response, error;
+
+      if (!state.formIsValid) {
+        return [response, error];
+      }
 
       commit(SET_LOADING, true);
 
       try {
-        const response = await axios.request({
+        response = await axios.request({
           headers: { 'Content-Type': 'application/json; charset=utf-8' },
           method,
-          url: getURL(action, method),
+          url: getURL(url, method),
           data: state.formData,
         });
 
         commit(SET_REQUEST_RESPONSE, response);
-      } catch (error) {
+      } catch (err) {
+        error = err;
         commit(SET_REQUEST_ERROR, error);
       } finally {
         commit(SET_LOADING, false);
       }
+
+      return [response, error];
     },
   },
 });

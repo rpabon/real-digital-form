@@ -1,8 +1,8 @@
 <template>
   <div>
     <label>{{ name }}</label>
-    <input type="text" v-model="inputValue" :name="name" :placeholder="name" />
-    <p v-if="!isValid">invalid</p>
+    <input type="text" v-model="inputValue" :name="name" />
+    <p v-if="!isValid">The content of the {{ name }} field is invalid.</p>
   </div>
 </template>
 
@@ -14,10 +14,7 @@ import isValidExpression from '@/utils/isValidExpression';
 export default {
   name: 'real-digital-textfield',
   props: {
-    name: {
-      type: String,
-      required: true,
-    },
+    name: { type: String, required: true },
     validation: String,
   },
   data: () => ({ inputValue: '' }),
