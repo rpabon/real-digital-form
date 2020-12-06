@@ -1,11 +1,16 @@
 <template>
   <div>
+    <label>{{ name }}</label>
     <input type="text" v-model="inputValue" :name="name" :placeholder="name" />
     <p v-if="!isValid">invalid</p>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+import { SET_FORM_DATA, SET_FORM_IS_VALID } from '@/store/constants';
+import isValidExpression from '@/utils/isValidExpression';
+
 export default {
   name: 'real-digital-textfield',
   props: {
@@ -13,26 +18,21 @@ export default {
       type: String,
       required: true,
     },
-    validation: {
-      type: String,
-      required: false,
-    },
+    validation: String,
   },
-  data: () => ({
-    inputValue: '',
-  }),
+  data: () => ({ inputValue: '' }),
   computed: {
     isValid() {
-      if (!this.validation || !this.inputValue) {
-        return true;
-      }
-
-      try {
-        const regex = new RegExp(`\\b${this.validation}\\b`);
-        return regex.test(this.inputValue);
-      } catch (error) {
-        return false;
-      }
+      return isValidExpression(this.inputValue, this.validation);
+    },
+  },
+  methods: mapMutations([SET_FORM_DATA, SET_FORM_IS_VALID]),
+  watch: {
+    inputValue(value) {
+      this.SET_FORM_DATA({ [this.name]: value });
+    },
+    isValid(value) {
+      this.SET_FORM_IS_VALID(value);
     },
   },
 };

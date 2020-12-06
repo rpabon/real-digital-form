@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <real-digital-form action="/script.php" method="post">
+    <real-digital-form method="post">
       <real-digital-textfield name="name" validation="[a-z]+">
       </real-digital-textfield>
       <real-digital-textfield name="phone" validation="[0-9]+">
