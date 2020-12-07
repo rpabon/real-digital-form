@@ -1,7 +1,9 @@
 <template>
-  <button type="submit">
-    <slot />
-  </button>
+  <div class="form__control">
+    <button type="submit" class="form__control__button">
+      <slot />
+    </button>
+  </div>
 </template>
 
 <script>
@@ -10,4 +12,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.form__control__button {
+
+}
+</style>

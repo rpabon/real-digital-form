@@ -1,15 +1,11 @@
 <template>
-  <form @submit.prevent="submit" novalidate>
+  <form class="form" ref="formRef" @submit.prevent="submit" novalidate>
     <slot />
-    <p>Data: {{ formData }}</p>
-    <p>Loading: {{ loading }}</p>
-    <p>Valid: {{ formIsValid }}</p>
   </form>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import { SEND_FORM_DATA } from '@/store/constants';
+import { getFormData, isValidForm, sendFormData } from '@/utils/form';
 import validator from '@/utils/isValidHttpMethod';
 
 export default {
@@ -22,16 +18,26 @@ export default {
       validator,
     },
   },
-  computed: mapState(['formData', 'loading', 'formIsValid']),
+  data: () => ({ loading: false }),
   methods: {
-    ...mapActions([SEND_FORM_DATA]),
+    setLoading(loading = true) {
+      this.loading = loading;
+    },
     async submit() {
-      this.$emit('onSubmit', this.formData);
+      const formRef = this.$refs.formRef;
+      const isFormValid = isValidForm(formRef);
+      const formData = getFormData(formRef);
 
-      const [response, error] = await this.SEND_FORM_DATA({
-        url: this.action,
-        method: this.method,
-      });
+      if (!isFormValid || !formData) return;
+
+      this.$emit('onSubmit', formData);
+
+      const { response, error } = await sendFormData(
+        this.action,
+        this.method,
+        formData,
+        this.setLoading
+      );
 
       this.$emit('onResponse', response, error);
     },
@@ -39,4 +45,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.form {
+}
+
+.form__control {
+}
+</style>

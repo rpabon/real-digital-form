@@ -10,8 +10,6 @@
         Send
       </real-digital-button>
     </real-digital-form>
-
-    <button type="button" @click="onClick">crap</button>
   </div>
 </template>
 
@@ -19,17 +17,6 @@
 export default {
   name: 'App',
   components: {},
-  methods: {
-    // test(x) {
-    //   x.poo = 'diaper';
-    // },
-    // dead(res) {
-    //   console.log(res?.status);
-    // },
-    // onClick() {
-    //   this.$refs.poo.submit();
-    // },
-  },
 };
 </script>
 
