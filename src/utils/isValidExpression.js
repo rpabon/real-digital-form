@@ -4,7 +4,7 @@ export default function isValidExpression(value, expression) {
   }
 
   try {
-    const regex = new RegExp(`\\b${expression}\\b`);
+    const regex = new RegExp(expression, 'i');
     return regex.test(value);
   } catch (error) {
     return false;
