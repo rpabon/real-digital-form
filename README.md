@@ -1,4 +1,5 @@
 # real-digital-form
+The components are in the src/components folder.
 
 ## Project setup
 ```
