@@ -1,4 +1,4 @@
-export default function isValidExpression(value, expression) {
+export function isValidExpression(value, expression) {
   if (!value || !expression) {
     return true;
   }

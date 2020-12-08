@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import isValidExpression from '@/utils/isValidExpression';
+import { isValidExpression } from './utils';
 
 export default {
   name: 'real-digital-textfield',

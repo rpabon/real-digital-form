@@ -11,13 +11,13 @@
 </template>
 
 <script>
-import validator from '@/utils/isValidHttpMethod';
 import {
+  methodValidator,
   isFormValid,
   areFieldsEmpty,
   getFormData,
   sendFormData,
-} from '@/utils/form';
+} from './utils';
 
 export default {
   name: 'real-digital-form',
@@ -30,7 +30,7 @@ export default {
       type: String,
       required: true,
       default: 'POST',
-      validator,
+      validator: methodValidator,
     },
   },
   data: () => ({ loading: false }),
