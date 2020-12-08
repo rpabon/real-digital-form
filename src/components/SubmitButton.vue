@@ -1,21 +1,14 @@
 <template>
   <div class="form__control">
-    <button
-      type="submit"
-      class="form__control__button"
-      :disabled="!formIsValid || pristine"
-    >
+    <button type="submit" class="form__control__button">
       <slot></slot>
     </button>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 export default {
   name: 'real-digital-button',
-  computed: mapState(['formIsValid', 'pristine']),
 };
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <form class="form" @submit.prevent="submit" novalidate>
+  <form class="form" ref="formRef" @submit.prevent="submit" novalidate>
     <div
       :class="{
         'form__loading-overlay': true,
@@ -11,9 +11,13 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import validator from '@/utils/isValidHttpMethod';
-import { sendFormData } from '@/utils/form';
+import {
+  isFormValid,
+  areFieldsEmpty,
+  getFormData,
+  sendFormData,
+} from '@/utils/form';
 
 export default {
   name: 'real-digital-form',
@@ -30,20 +34,18 @@ export default {
     },
   },
   data: () => ({ loading: false }),
-  computed: mapState(['formData', 'formIsValid']),
   methods: {
     setLoading(loading = true) {
       this.loading = loading;
     },
     async submit() {
-      if (!this.formIsValid) return;
+      const formRef = this.$refs.formRef;
+      const valid = isFormValid(formRef);
+      const noData = areFieldsEmpty(formRef);
 
-      /**
-       * I'd preferred to do the sending as an action in the
-       * store, but the onSubmit task was a bit confusing,
-       * so I just send the data (new reference)
-       */
-      const data = { ...this.formData };
+      if (!valid || noData) return;
+
+      const data = getFormData(formRef);
       this.$emit('onSubmit', data);
 
       const { response, error } = await sendFormData({

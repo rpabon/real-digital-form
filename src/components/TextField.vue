@@ -8,6 +8,7 @@
       :name="name"
       :class="{
         form__control__input: true,
+        'form__control__input--empty': !inputValue,
         'form__control__input--invalid': !isValid,
       }"
     />
@@ -18,8 +19,6 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
-import { SET_FORM_DATA, SET_FORM_IS_VALID } from '@/store/constants';
 import isValidExpression from '@/utils/isValidExpression';
 
 export default {
@@ -32,15 +31,6 @@ export default {
   computed: {
     isValid() {
       return isValidExpression(this.inputValue, this.validation);
-    },
-  },
-  methods: mapMutations([SET_FORM_DATA, SET_FORM_IS_VALID]),
-  watch: {
-    inputValue(value) {
-      this.SET_FORM_DATA({ [this.name]: value });
-    },
-    isValid(valid) {
-      this.SET_FORM_IS_VALID(valid);
     },
   },
 };

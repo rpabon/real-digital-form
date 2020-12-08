@@ -1,10 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
-import store from '@/store';
 import TextField from '@/components/TextField';
 
 function factory(props = {}, data = {}) {
   return shallowMount(TextField, {
-    store,
     propsData: props,
     data: () => ({ ...data }),
   });

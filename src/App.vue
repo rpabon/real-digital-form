@@ -28,7 +28,7 @@ export default {
     },
     insertDate(formData) {
       // insert the date in the form data as a formatting example
-      formData.date = +new Date();
+      formData.timestamp = +new Date();
     },
   },
 };
