@@ -29,14 +29,8 @@ describe('Text input field', () => {
     );
 
     expect(wrapper.find('.form__control__error').exists()).toBe(false);
-    expect(wrapper.find('input').classes()).not.toContain(
-      'form__control__input--invalid'
-    );
 
     await wrapper.setData({ inputValue: 1234 });
     expect(wrapper.find('.form__control__error').exists()).toBe(true);
-    expect(wrapper.find('input').classes()).toContain(
-      'form__control__input--invalid'
-    );
   });
 });

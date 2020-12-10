@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
+import { SEND_FORM_DATA } from '@/store/constants';
 import validator from '@/utils/isValidHttpMethod';
-import { sendFormData } from '@/utils/form';
 
 export default {
   name: 'real-digital-form',
@@ -29,28 +29,15 @@ export default {
       validator,
     },
   },
-  data: () => ({ loading: false }),
-  computed: mapState(['formData', 'formIsValid']),
+  computed: mapState(['formData', 'loading']),
   methods: {
-    setLoading(loading = true) {
-      this.loading = loading;
-    },
+    ...mapActions([SEND_FORM_DATA]),
     async submit() {
-      if (!this.formIsValid) return;
+      this.$emit('onSubmit', this.formData);
 
-      /**
-       * I'd preferred to do the sending as an action in the
-       * store, but the onSubmit task was a bit confusing,
-       * so I just send the data (new reference)
-       */
-      const data = { ...this.formData };
-      this.$emit('onSubmit', data);
-
-      const { response, error } = await sendFormData({
+      const { response, error } = await this.SEND_FORM_DATA({
         url: this.action,
         method: this.method,
-        setLoading: this.setLoading,
-        data,
       });
 
       this.$emit('onResponse', response, error);

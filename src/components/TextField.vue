@@ -4,12 +4,9 @@
     <input
       type="text"
       ref="input"
-      v-model="inputValue"
+      class="form__control__input"
       :name="name"
-      :class="{
-        form__control__input: true,
-        'form__control__input--invalid': !isValid,
-      }"
+      v-model="inputValue"
     />
     <p class="form__control__error" v-if="!isValid">
       The content of the <strong>{{ name }}</strong> field is invalid.
@@ -64,9 +61,6 @@ export default {
   font-size: 1rem;
   border-radius: 4px;
   border: 1px solid #3298dc;
-}
-
-.form__control__input--invalid {
 }
 
 .form__control__error {

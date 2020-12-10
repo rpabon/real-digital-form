@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import App from './App.vue';
-import store from './store'
+import store from './store';
 
 import FormWrapper from './components/FormWrapper.vue';
 import TextField from './components/TextField.vue';
@@ -13,5 +13,5 @@ Vue.component('real-digital-button', SubmitButton);
 
 new Vue({
   store,
-  render: (h) => h(App)
+  render: (h) => h(App),
 }).$mount('#app');
